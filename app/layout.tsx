@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import QueryProvider from "@/providers/QueryProvider";
 
 export const metadata: Metadata = {
   title: "Atelier Fashion",
@@ -17,9 +18,12 @@ export default function RootLayout({
         className="antialiased"
         style={{ fontFamily: "'Liberation Serif', Georgia, serif" }}
       >
-        {children}
+        <QueryProvider>
+          {children}
+        </QueryProvider>
       </body>
     </html>
   );
 }
+
 
