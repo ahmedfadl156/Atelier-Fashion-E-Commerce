@@ -5,6 +5,7 @@ import { useRef } from "react"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { useFeaturedProducts } from "@/hooks/products/useFeaturedProducts"
+import Image from "next/image"
 
 const ITEM_WIDTH = 340
 const GAP = 20
@@ -85,10 +86,11 @@ const FeaturedProducts = () => {
                                         className="relative rounded-2xl overflow-hidden bg-[#F5F2EE]"
                                         style={{ height: CARD_HEIGHT }}
                                     >
-                                        <img
+                                        <Image
                                             src={`${SERVER_ORIGIN}/images/Products/${product.coverImage}`}
                                             alt={product.title}
-                                            className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                                            fill
+                                            className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
                                         />
 
                                         <div className="absolute inset-0 bg-linear-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />

@@ -15,3 +15,15 @@ export interface FeaturedProductsResponse {
         products: Product[]
     }
 }
+export interface TrendingProduct {
+    _id: string
+    title: string
+    price: number
+    coverImage: string
+}
+
+export interface TrendingProductsResponse {
+    status: string
+    message: string
+    data: TrendingProduct[]
+}

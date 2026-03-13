@@ -87,7 +87,7 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
+  --primary: oklch(76.652% 0.13861 91.065);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -122,7 +122,7 @@
   --card-foreground: oklch(0.985 0 0);
   --popover: oklch(0.205 0 0);
   --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
+  --primary: oklch(76.652% 0.13861 91.065);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(0.269 0 0);
   --secondary-foreground: oklch(0.985 0 0);
@@ -159,4 +159,52 @@
   html {
     @apply font-sans;
   }
+}
+.vertical-grid-line {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: rgba(26, 26, 26, 0.082);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ── Auth / Login Form ─────────────────────────────────────── */
+
+/* Bottom-border-only input field */
+.underline-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(26, 26, 26, 0.2);
+  outline: none;
+  color: #1A1A1A;
+  font-family: inherit;
+  transition: border-color 0.3s ease;
+}
+
+.underline-input:focus {
+  border-bottom-color: #D4AF37;
+}
+
+/* Italic, muted placeholder */
+.italic-placeholder::placeholder {
+  font-style: italic;
+  color: rgba(26, 26, 26, 0.35);
+}
+
+/* Luxury gold CTA button */
+.gold-button {
+  background-color: #1A1A1A;
+  color: #D4AF37;
+  border: 1px solid #1A1A1A;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+  letter-spacing: 0.4em;
+}
+
+.gold-button:hover {
+  background-color: #D4AF37;
+  color: #1A1A1A;
+  border-color: #D4AF37;
 }

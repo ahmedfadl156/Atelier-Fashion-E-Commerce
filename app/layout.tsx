@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import QueryProvider from "@/providers/QueryProvider";
+import { AuthProvider } from "@/context/authContext";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Atelier Fashion",
@@ -18,9 +20,12 @@ export default function RootLayout({
         className="antialiased"
         style={{ fontFamily: "'Liberation Serif', Georgia, serif" }}
       >
+        <AuthProvider>
         <QueryProvider>
           {children}
         </QueryProvider>
+        </AuthProvider>
+        <Toaster />
       </body>
     </html>
   );
