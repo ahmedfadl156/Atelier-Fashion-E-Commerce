@@ -1,6 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "motion/react"
+import Link from "next/link";
 
 const HeroSection = () => {
 
@@ -113,7 +114,9 @@ const HeroSection = () => {
                 whileTap={{ scale: 0.97 }}
                 className="px-10 cursor-pointer py-3.5 bg-[#C9AF5B] text-white rounded-full transition-colors tracking-widest text-sm uppercase"
             >
-                Shop Now
+                <Link href="/collections">
+                    Shop Now
+                </Link>
             </motion.button>
         </motion.div>
 

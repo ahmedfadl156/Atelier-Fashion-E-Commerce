@@ -1,14 +1,15 @@
-import Image from "next/image"
-import Link from "next/link"
-import { TrendingProduct } from "@/types/products"
+import Link from 'next/link'
+import React from 'react'
+import { ProductCard } from '@/types/products'
+import Image from 'next/image'
 
-interface TrendingProductCardProps {
-    product: TrendingProduct
+interface ProductCardProps {
+    product: ProductCard
     serverOrigin: string
-    index: number
 }
 
-const TrendingProductCard = ({ product, serverOrigin, index }: TrendingProductCardProps) => {
+
+const ProductCard = ({ product, serverOrigin }: ProductCardProps) => {
     return (
         <Link
             href={`/collections/${product.slug}`}
@@ -17,7 +18,8 @@ const TrendingProductCard = ({ product, serverOrigin, index }: TrendingProductCa
             {/* Image container */}
             <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-[#F5F2EE]">
                 <Image
-                    src={`${serverOrigin}/images/Products/${product.coverImage}`}
+                    src={"/images/Fluid Dress.png"}
+                    // src={`${serverOrigin}/images/Products/${product.coverImage}` || "/images/Fluid Dress.png"}
                     alt={product.title}
                     fill
                     className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
@@ -26,11 +28,6 @@ const TrendingProductCard = ({ product, serverOrigin, index }: TrendingProductCa
 
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                {/* Item index badge */}
-                <span className="absolute top-4 left-4 text-[10px] font-mono tracking-[0.2em] text-[#C9AF5B] bg-black/20 backdrop-blur-sm px-2 py-1 rounded-full">
-                    {String(index + 1).padStart(2, "0")}
-                </span>
 
                 {/* Price badge */}
                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-[#333] text-xs font-semibold px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-[-4px] group-hover:translate-y-0">
@@ -58,4 +55,4 @@ const TrendingProductCard = ({ product, serverOrigin, index }: TrendingProductCa
     )
 }
 
-export default TrendingProductCard
+export default ProductCard

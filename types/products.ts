@@ -20,6 +20,15 @@ export interface TrendingProduct {
     title: string
     price: number
     coverImage: string
+    slug: string
+}
+
+export interface ProductCard {
+    _id: string
+    title: string
+    price: number
+    coverImage: string
+    slug: string
 }
 
 export interface TrendingProductsResponse {
