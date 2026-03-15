@@ -1,15 +1,18 @@
 "use client";
 import { useAuth } from "@/context/authContext";
+import { useCart } from "@/hooks/cart/useCart";
+import { ShoppingCart } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 const NAV_LINKS = [
-    { label: "Collections", href: "/" },
-    { label: "Mens", href: "/" },
-    { label: "Womens", href: "/" },
-    { label: "Kids", href: "/" },
+    { label: "Collections", href: "/collections" },
+    { label: "Categories", href: "/collections/category" },
+    { label: "Mens", href: "/collections/category/men" },
+    { label: "Womens", href: "/collections/category/women" },
+    { label: "Kids", href: "/collections/category/kids" },
 ];
 
 
@@ -21,6 +24,7 @@ function getInitials(firstName?: string, lastName?: string) {
 
 const Navbar = () => {
     const { user, isAuthenticated, isLoading, signOut } = useAuth();
+    const { cartCount } = useCart();
     const router = useRouter();
 
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -38,7 +42,6 @@ const Navbar = () => {
         return () => document.removeEventListener("mousedown", handler);
     }, []);
 
-    // lock body scroll when mobile menu is open
     useEffect(() => {
         document.body.style.overflow = mobileOpen ? "hidden" : "";
         return () => { document.body.style.overflow = ""; };
@@ -80,6 +83,25 @@ const Navbar = () => {
 
                 {/* Desktop right side */}
                 <div className="hidden md:flex items-center gap-4">
+                    <div className="relative">
+                        <AnimatePresence mode="popLayout">
+                            {cartCount > 0 && (
+                                <motion.span
+                                    key={cartCount}
+                                    initial={{ scale: 0, opacity: 0 }}
+                                    animate={{ scale: 1, opacity: 1 }}
+                                    exit={{ scale: 0, opacity: 0 }}
+                                    transition={{ type: "spring", stiffness: 500, damping: 20 }}
+                                    className="absolute -top-5 -left-4 bg-primary text-white text-[10px] font-bold rounded-full w-6 h-6 flex items-center justify-center pointer-events-none"
+                                >
+                                    {cartCount > 99 ? "99+" : cartCount}
+                                </motion.span>
+                            )}
+                        </AnimatePresence>
+                        <Link id="cart-nav-icon" href="/cart" className="relative after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full hover:text-[#1A1A1A] transition-colors duration-200">
+                            <ShoppingCart className="size-5"/>
+                        </Link>
+                    </div>
                     {isLoading ? (
                         <div className="h-9 w-9 rounded-full bg-[#1A1A1A]/10 animate-pulse" />
                     ) : isAuthenticated ? (

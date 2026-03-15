@@ -1,37 +1,86 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { ChevronDown, Check, SlidersHorizontal, ArrowUpDown, RoseIcon } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ChevronDown, Check, SlidersHorizontal, ArrowUpDown } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useGetAllCategories } from '@/hooks/categorys/useGetAllCategories';
 
 function cn(...inputs: ClassValue[]) {
     return twMerge(clsx(inputs));
 }
 
-const filterOptions = {
-    category: ['All', 'Dresses', 'Knitwear', 'Outerwear', 'Accessories', 'Shoes'],
-    size: ['All', 'XS', 'S', 'M', 'L', 'XL'],
-    price: ['All', 'Under $300', '$300 - $600', '$700 - $1000', 'Over $1000'],
-    sortBy: ['Recommended', 'Newest Arrivals', 'Price: Low to High', 'Price: High to Low']
-};
-
-type FilterType = keyof typeof filterOptions;
+type FilterType = 'category' | 'size' | 'price' | 'sortBy';
 
 const FilterComponent = () => {
     const [activeDropdown, setActiveDropdown] = useState<FilterType | null>(null);
-    const [selectedFilters, setSelectedFilters] = useState<Record<FilterType, string>>({
-        category: 'All',
-        size: 'All',
-        price: 'All',
-        sortBy: 'Recommended'
-    });
     const router = useRouter();
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const filterRef = useRef<HTMLDivElement>(null);
+
+
+    const { data: categoriesResponse } = useGetAllCategories();
+    const categoriesData = categoriesResponse?.data?.categories || [];
+
+    const isCategoryPage = pathname.includes('/collections/category/');
+    const activeCategorySlug = isCategoryPage ? pathname.split('/').pop() : null;
+
+    let dynamicCategoryOptions: { label: string, value: string }[] = [{ label: 'All Categories', value: 'All' }];
+
+    if (categoriesData.length > 0) {
+        if (activeCategorySlug) {
+            const activeCat = categoriesData.find((c: any) => c.slug === activeCategorySlug);
+            if (activeCat && activeCat.subcategories && activeCat.subcategories.length > 0) {
+                dynamicCategoryOptions = [{ label: 'All Subcategories', value: 'All' }];
+                activeCat.subcategories.forEach((sub: any) => {
+                    dynamicCategoryOptions.push({ label: sub.name, value: sub.slug });
+                });
+            }
+        } else {
+            categoriesData.forEach((main: any) => {
+                dynamicCategoryOptions.push({ label: main.name, value: main.slug });
+            });
+        }
+    }
+
+    const filterOptions = {
+        category: dynamicCategoryOptions,
+        size: [
+            { label: 'All Sizes', value: 'All' },
+            { label: 'XS', value: 'XS' },
+            { label: 'S', value: 'S' },
+            { label: 'M', value: 'M' },
+            { label: 'L', value: 'L' },
+            { label: 'XL', value: 'XL' }
+        ],
+        price: [
+            { label: 'All Prices', value: 'All' },
+            { label: 'Under $300', value: 'Under $300' },
+            { label: '$300 - $700', value: '$300 - $700' },
+            { label: '$700 - $1000', value: '$700 - $1000' },
+            { label: 'Over $1000', value: 'Over $1000' }
+        ],
+        sortBy: [
+            { label: 'Recommended', value: 'Recommended' },
+            { label: 'Newest Arrivals', value: 'Newest Arrivals' },
+            { label: 'Price: Low to High', value: 'Price: Low to High' },
+            { label: 'Price: High to Low', value: 'Price: High to Low' }
+        ]
+    };
+
+    const getSelectedValue = (type: FilterType) => {
+        return searchParams.get(type) || 'All';
+    };
+
+    const getSelectedLabel = (type: FilterType) => {
+        let val = searchParams.get(type) || 'All';
+        if (type === 'sortBy' && val === 'All') val = 'Recommended';
+        const option = filterOptions[type].find(o => o.value === val);
+        return option ? option.label : val;
+    };
 
     // Close dropdown on click outside
     useEffect(() => {
@@ -53,7 +102,6 @@ const FilterComponent = () => {
     };
 
     const handleSelect = (type: FilterType, value: string) => {
-        setSelectedFilters(prev => ({ ...prev, [type]: value }));
         setActiveDropdown(null);
 
         const params = new URLSearchParams(searchParams.toString());
@@ -73,7 +121,8 @@ const FilterComponent = () => {
 
     const renderDropdown = (type: FilterType, label: string) => {
         const isActive = activeDropdown === type;
-        const selectedValue = selectedFilters[type];
+        const selectedValue = getSelectedValue(type);
+        const selectedLabel = getSelectedLabel(type);
         const isModified = selectedValue !== 'All' && selectedValue !== 'Recommended';
 
         return (
@@ -92,11 +141,11 @@ const FilterComponent = () => {
                     <span className="flex items-center gap-1.5">
                         {type === 'sortBy' ? <ArrowUpDown size={12} className="w-3 h-3" /> : null}
                         <span className="hidden sm:inline text-gray-400 font-normal">{label}:</span>
-                        <span className={cn("font-medium max-w-[70px] sm:max-w-none truncate", isActive ? "text-white" : "text-[#111827]")}>
-                            {selectedValue}
+                        <span className={cn("font-medium max-w-[90px] sm:max-w-[120px] truncate", isActive ? "text-white" : "text-[#111827]")}>
+                            {selectedLabel}
                         </span>
                     </span>
-                    <ChevronDown size={14} className={cn("transition-transform duration-300 w-3.5 h-3.5", isActive && "rotate-180")} />
+                    <ChevronDown size={14} className={cn("transition-transform duration-300 w-3.5 h-3.5 ml-1", isActive && "rotate-180")} />
                 </button>
 
                 <AnimatePresence>
@@ -107,24 +156,24 @@ const FilterComponent = () => {
                             animate="visible"
                             exit="exit"
                             className={cn(
-                                "absolute z-100 mt-2 w-44 sm:w-48 p-1.5 bg-white/95 backdrop-blur-xl border border-gray-100 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)]",
+                                "absolute z-50 mt-2 min-w-[180px] p-1.5 bg-white/95 backdrop-blur-xl border border-gray-100 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)]",
                                 type === 'sortBy' ? "left-0 sm:right-0 sm:left-auto" : "left-0"
                             )}
                         >
                             <div className="flex flex-col gap-0.5 max-h-[250px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-transparent">
                                 {filterOptions[type].map((option) => (
                                     <button
-                                        key={option}
-                                        onClick={() => handleSelect(type, option)}
+                                        key={option.value}
+                                        onClick={() => handleSelect(type, option.value)}
                                         className={cn(
                                             "flex items-center justify-between w-full px-3 py-2 text-xs rounded-xl transition-all duration-200 text-left",
-                                            selectedFilters[type] === option
+                                            selectedValue === option.value
                                                 ? "bg-[#F9F6EE] text-[#111827] font-medium"
                                                 : "text-gray-600 hover:bg-gray-50 hover:text-gray-900"
                                         )}
                                     >
-                                        {option}
-                                        {selectedFilters[type] === option && (
+                                        <span className="truncate pr-2">{option.label}</span>
+                                        {selectedValue === option.value && (
                                             <Check size={14} className="text-[#C9AF5B] w-3.5 h-3.5 shrink-0" />
                                         )}
                                     </button>
@@ -140,26 +189,22 @@ const FilterComponent = () => {
     return (
         <motion.div 
             ref={filterRef} 
-            className="w-full mt-8 mb-10"
+            className="flex items-center gap-3 flex-wrap"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
         >
-            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4 pb-4 border-b border-gray-100">
-                <div className="flex items-center gap-4 flex-wrap">
-                    <div className="hidden md:flex items-center gap-1.5 text-gray-800 font-semibold text-sm mr-2">
-                        <SlidersHorizontal size={16} className="text-[#C9AF5B]" />
-                        <h2>Filters</h2>
-                    </div>
-                    
-                    <div className="flex flex-wrap items-center gap-2">
-                        {renderDropdown('category', 'Category')}
-                        {renderDropdown('size', 'Size')}
-                        {renderDropdown('price', 'Price')}
-                        <div className="hidden sm:block w-px h-6 bg-gray-200 mx-1"></div>
-                        {renderDropdown('sortBy', 'Sort')}
-                    </div>
-                </div>
+            <div className="hidden md:flex items-center gap-1.5 text-gray-800 font-semibold text-sm mr-2">
+                <SlidersHorizontal size={16} className="text-[#C9AF5B]" />
+                <h2>Filters</h2>
+            </div>
+            
+            <div className="flex flex-wrap items-center gap-2">
+                {renderDropdown('category', 'Category')}
+                {renderDropdown('size', 'Size')}
+                {renderDropdown('price', 'Price')}
+                <div className="hidden sm:block w-px h-6 bg-gray-200 mx-1"></div>
+                {renderDropdown('sortBy', 'Sort')}
             </div>
         </motion.div>
     );

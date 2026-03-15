@@ -48,3 +48,29 @@ export const getTrendingProducts = async (): Promise<TrendingProductsResponse> =
         console.error("Error while getting the trending products" + error)
     }
 }
+
+export const getProductDetails = async (slug: string) => {
+    try {
+        const res = await fetch(`${API_URL}/products/${slug}`);
+        if(!res.ok){
+            throw new Error("Failed To Get Product Details Please Try Again");
+        }
+        const product = await res.json();
+        return product;
+    } catch (error) {
+        
+    }
+}
+
+export const getRelatedProducts = async (productId: string) => {
+    try {
+        const res = await fetch(`${API_URL}/products/${productId}/related`);
+        if(!res.ok){
+            throw new Error("Failed To Get Related Products");
+        }
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error("Error while getting related products:", error);
+    }
+}

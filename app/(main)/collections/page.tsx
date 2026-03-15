@@ -4,16 +4,35 @@ import FilterComponent from "@/components/collections/FilterComponent";
 import { useGetAllProducts } from "@/hooks/products/useGetAllProducts";
 import ProductCard from "@/components/ProductCard";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import SearchComponent from "@/components/collections/SearchComponent";
+import { useGetAllCategories } from "@/hooks/categorys/useGetAllCategories";
 
 const page = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
     
+    const { data: allCategoriesData } = useGetAllCategories();
+    const categoriesList = allCategoriesData?.data?.categories || [];
+
     const paramsObj: Record<string, string> = {};
     
-    const category = searchParams.get('category');
-    if (category) paramsObj.category = category;
+    const categorySlug = searchParams.get('category');
+    if (categorySlug && categorySlug !== 'All') {
+        let resolvedId = categorySlug;
+        for (const mainCat of categoriesList) {
+            if (mainCat.slug === categorySlug) {
+                resolvedId = mainCat._id;
+                break;
+            }
+            const sub = mainCat.subcategories?.find((s: any) => s.slug === categorySlug);
+            if (sub) {
+                resolvedId = sub._id;
+                break;
+            }
+        }
+        paramsObj.category = resolvedId;
+    }
 
     const size = searchParams.get('size');
     if (size) {
@@ -25,9 +44,9 @@ const page = () => {
     if (price) {
         if (price === 'Under $300') {
             paramsObj['price[lte]'] = '300';
-        } else if (price === '$300 - $600') {
+        } else if (price === '$300 - $700') {
             paramsObj['price[gte]'] = '300';
-            paramsObj['price[lte]'] = '600';
+            paramsObj['price[lte]'] = '700';
         } else if (price === '$700 - $1000') {
             paramsObj['price[gte]'] = '700';
             paramsObj['price[lte]'] = '1000';
@@ -48,6 +67,11 @@ const page = () => {
         }
     }
     
+    const search = searchParams.get('search')?.trim();
+    if (search) {
+        paramsObj.search = search;
+    }
+
     const query = new URLSearchParams(paramsObj).toString();
 
     const handleDeleteFilters = () => {
@@ -56,7 +80,7 @@ const page = () => {
 
     const { data, isLoading, isError } = useGetAllProducts(query);
     const products = data?.data?.products || [];
-    const serverOrigin = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5500";
+    const serverOrigin = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api.*$/, "") || "http://localhost:5500";
 
     const textVariants = {
         hidden: {
@@ -87,8 +111,9 @@ const page = () => {
             </motion.div>
 
             {/* Filters and search component */}
-            <div className="mt-10 flex items-center justify-between">
-            <FilterComponent />
+            <div className="mt-8 mb-10 w-full flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 pb-4 border-b border-gray-100">
+                <FilterComponent />
+                <SearchComponent />
             </div>
 
             {/* Products & States */}
