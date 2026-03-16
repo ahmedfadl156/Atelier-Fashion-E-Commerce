@@ -7,21 +7,21 @@ const CATEGORIES = [
         title: "Women's Collection",
         slug: "women",
         description: "Discover elegance and modern grace. Curated pieces for the contemporary woman.",
-        image: "/images/Womens-Collection.png",
+        image: "/images/Womens_Collection.png",
         color: "bg-[#FDFBF7]"
     },
     {
         title: "Men's Essentials",
         slug: "men",
         description: "Timeless tailoring meets urban edge. Define your signature style.",
-        image: "/images/Mens-Collection.png", 
+        image: "/images/Mens_Collection.png", 
         color: "bg-[#F7F8FA]"
     },
     {
         title: "Kids & Baby",
         slug: "kids",
         description: "Playful, comfortable, and stylish. Fashion for the little ones.",
-        image: "/images/Kids-Collection.png", 
+        image: "/images/Kids_Collection.png", 
         color: "bg-[#F9F7F5]"
     }
 ];

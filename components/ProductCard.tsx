@@ -1,13 +1,13 @@
 import Link from 'next/link'
 import React from 'react'
-import { ProductCard } from '@/types/products'
+import { ProductCard as ProductCardType } from '@/types/products'
 import Image from 'next/image'
+import WishlistButton from './WishlistButton'
 
 interface ProductCardProps {
-    product: ProductCard
+    product: ProductCardType
     serverOrigin: string
 }
-
 
 const ProductCard = ({ product, serverOrigin }: ProductCardProps) => {
     return (
@@ -28,6 +28,12 @@ const ProductCard = ({ product, serverOrigin }: ProductCardProps) => {
 
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                {/* Wishlist button */}
+                <WishlistButton 
+                    productId={product._id} 
+                    className="absolute top-4 left-4" 
+                />
 
                 {/* Price badge */}
                 <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm text-[#333] text-xs font-semibold px-3 py-1.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-[-4px] group-hover:translate-y-0">

@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { TrendingProduct } from "@/types/products"
+import WishlistButton from "../WishlistButton"
 
 interface TrendingProductCardProps {
     product: TrendingProduct
@@ -26,6 +27,12 @@ const TrendingProductCard = ({ product, serverOrigin, index }: TrendingProductCa
 
                 {/* Gradient overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                {/* Wishlist Button */}
+                <WishlistButton 
+                    productId={product._id} 
+                    className="absolute top-12 left-4" 
+                />
 
                 {/* Item index badge */}
                 <span className="absolute top-4 left-4 text-[10px] font-mono tracking-[0.2em] text-[#C9AF5B] bg-black/20 backdrop-blur-sm px-2 py-1 rounded-full">
