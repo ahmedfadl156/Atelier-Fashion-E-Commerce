@@ -4,7 +4,7 @@ import { motion } from "motion/react"
 import Link from "next/link"
 
 const ExploreSection = () => {
-    const textVariants = {
+    const textVariants: any = {
         hidden: {opacity: 0 , y: 50},
         visible: {
             opacity: 1,
@@ -13,7 +13,7 @@ const ExploreSection = () => {
         }
     }
 
-    const imageVariants = {
+    const imageVariants: any = {
         hidden: {opacity: 0 , scale: 1.15},
         visible: {
             opacity: 1,

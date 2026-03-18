@@ -82,7 +82,7 @@ const page = () => {
     const products = data?.data?.products || [];
     const serverOrigin = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api.*$/, "") || "http://localhost:5500";
 
-    const textVariants = {
+    const textVariants: any = {
         hidden: {
             opacity: 0,
             y: 20

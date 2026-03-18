@@ -2,7 +2,7 @@
 import { motion } from "motion/react"
 
 const AboutSection = () => {
-    const textVariants = {
+    const textVariants: any = {
     hidden: { opacity: 0, y: 40 },
     visible: { 
         opacity: 1, 
@@ -10,7 +10,7 @@ const AboutSection = () => {
         transition: { duration: 0.8, ease: "easeOut" } 
     }
     };
-    const imageVariants = {
+    const imageVariants: any = {
         hidden: { opacity: 0, scale: 1.1 },
         visible: { 
         opacity: 1, 
@@ -19,7 +19,7 @@ const AboutSection = () => {
         }
     };
 
-    const buttonVariants = {
+    const buttonVariants: any = {
         hidden: { opacity: 0, y: 20 },
         visible: { 
         opacity: 1, 

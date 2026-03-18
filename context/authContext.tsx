@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, useEffect, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 interface User {
     id: string,
@@ -29,6 +30,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 export const AuthProvider = ({children}: {children: React.ReactNode}) => {
     const [user , setUser] = useState<User | null>(null);
     const [isLoading , setIsLoading] = useState(true);
+    const queryClient = useQueryClient();
 
     useEffect(() => {
         checkAuth()
@@ -44,11 +46,13 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
                 const userData = await res.json();
                 setUser(userData.data);
             }else{
-                setUser(null)
+                setUser(null);
+                queryClient.clear();
             }
         } catch (error) {
             console.error(error);
-            setUser(null)
+            setUser(null);
+            queryClient.clear();
         } finally {
             setIsLoading(false)
         }
@@ -116,6 +120,7 @@ export const AuthProvider = ({children}: {children: React.ReactNode}) => {
             console.error("Sign out failed", error);
         } finally {
             setUser(null);
+            queryClient.clear();
         }
     }
 

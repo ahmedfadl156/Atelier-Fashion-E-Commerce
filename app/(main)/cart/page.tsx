@@ -175,7 +175,7 @@ const CartPage = () => {
 
                         {/* Order Summary */}
                         <div className="lg:col-span-3">
-                            <OrderSummary subtotal={cart?.totalCartPrice} itemCount={items.length} />
+                            <OrderSummary subtotal={cart?.totalCartPrice || 0} itemCount={items.length} />
                         </div>
                     </div>
                 )}

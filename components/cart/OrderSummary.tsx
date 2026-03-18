@@ -12,7 +12,7 @@ interface OrderSummaryProps {
 const FREE_SHIPPING_THRESHOLD = 2000;
 
 export default function OrderSummary({ subtotal, itemCount }: OrderSummaryProps) {
-    const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 15;
+    const shipping = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : 50;
     const total = subtotal + shipping;
 
     return (
@@ -79,7 +79,9 @@ export default function OrderSummary({ subtotal, itemCount }: OrderSummaryProps)
                 whileTap={{ scale: 0.98 }}
                 className="w-full bg-[#D4AF37] text-[#1A1A1A] py-4 text-[11px] uppercase tracking-[0.3em] font-bold flex items-center justify-center gap-3 hover:bg-[#C9A832] transition-colors duration-200 cursor-pointer"
             >
-                Proceed to Checkout
+                <Link href="/checkout">
+                    Proceed to Checkout
+                </Link>
                 <ArrowRight className="w-4 h-4" />
             </motion.button>
 

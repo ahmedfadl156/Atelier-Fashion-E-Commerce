@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "motion/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 const NAV_LINKS = [
     { label: "Collections", href: "/collections" },
@@ -26,6 +27,7 @@ const Navbar = () => {
     const { user, isAuthenticated, isLoading, signOut } = useAuth();
     const { cartCount } = useCart();
     const router = useRouter();
+    const queryClient = useQueryClient();
 
     const [mobileOpen, setMobileOpen] = useState(false);
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -51,6 +53,7 @@ const Navbar = () => {
         setDropdownOpen(false);
         setMobileOpen(false);
         await signOut();
+        queryClient.clear();
         router.push("/sign-in");
     };
 

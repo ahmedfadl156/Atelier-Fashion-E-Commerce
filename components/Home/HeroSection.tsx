@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const HeroSection = () => {
 
-    const containerVariants = {
+    const containerVariants: any = {
         hidden: { opacity: 0 },
         show: {
             opacity: 1,
@@ -16,7 +16,7 @@ const HeroSection = () => {
         }
     }
 
-    const heading1Variants = {
+    const heading1Variants: any = {
         hidden: { y: -60, opacity: 0 },
         show: {
             y: 0,
@@ -25,7 +25,7 @@ const HeroSection = () => {
         }
     }
 
-    const heading2Variants = {
+    const heading2Variants: any = {
         hidden: { y: 60, opacity: 0 },
         show: {
             y: 0,
@@ -34,7 +34,7 @@ const HeroSection = () => {
         }
     }
 
-    const lineVariants = {
+    const lineVariants: any = {
         hidden: { scaleX: 0, opacity: 0 },
         show: {
             scaleX: 1,
@@ -43,7 +43,7 @@ const HeroSection = () => {
         }
     }
 
-    const paragraphVariants = {
+    const paragraphVariants: any = {
         hidden: { y: 20, opacity: 0 },
         show: {
             y: 0,
@@ -52,7 +52,7 @@ const HeroSection = () => {
         }
     }
 
-    const buttonVariants = {
+    const buttonVariants: any = {
         hidden: { scale: 0.8, opacity: 0 },
         show: {
             scale: 1,
@@ -61,7 +61,7 @@ const HeroSection = () => {
         }
     }
 
-    const marqueeVariants = {
+    const marqueeVariants: any = {
         hidden: {
             y: 30,
             opacity: 0

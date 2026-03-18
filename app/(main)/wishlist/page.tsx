@@ -3,7 +3,6 @@ import { useWishlist, useRemoveFromWishlist } from "@/hooks/wishlist/useWishlist
 import Image from "next/image";
 import Link from "next/link";
 import { Trash2, ShoppingBag, Loader2 } from "lucide-react";
-import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
 const WishlistPage = () => {
@@ -67,7 +66,7 @@ const WishlistPage = () => {
                         {wishlist.map((item: any) => (
                             <div key={item._id} className="group flex flex-col relative">
                                 {/* Image Container */}
-                                <div className="relative w-full aspect-3/4 bg-[#F9F8F6] overflow-hidden">
+                                <div className="relative w-full aspect-3/4 bg-[#F9F8F6] overflow-hidden rounded-xl">
                                     <Image
                                         src={`${process.env.NEXT_PUBLIC_SERVER_ORIGIN || "http://localhost:5500"}/images/Products/${item.coverImage}`}
                                         alt={item.title}

@@ -20,11 +20,11 @@ export default function RootLayout({
         className="antialiased"
         style={{ fontFamily: "'Liberation Serif', Georgia, serif" }}
       >
-        <AuthProvider>
         <QueryProvider>
+        <AuthProvider>
           {children}
-        </QueryProvider>
         </AuthProvider>
+        </QueryProvider>
         <Toaster />
       </body>
     </html>

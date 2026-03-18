@@ -111,6 +111,7 @@ export const useAddToCart = () => {
                                         price: payload.productData?.price ?? 0,
                                     },
                                 ],
+                                totalCartPrice: payload.productData?.price ?? 0,
                             },
                         },
                     }
@@ -130,9 +131,10 @@ export const useAddToCart = () => {
                             ? { ...item, quantity: item.quantity + (payload.quantity ?? 1) }
                             : item
                     )
+                    const updatedTotalPrice = updatedItems.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0)
                     return {
                         ...old,
-                        data: { cart: { ...old.data.cart, cartItems: updatedItems } },
+                        data: { cart: { ...old.data.cart, cartItems: updatedItems, totalCartPrice: updatedTotalPrice } },
                     }
                 }
 
@@ -159,6 +161,7 @@ export const useAddToCart = () => {
                                     price: payload.productData?.price ?? 0,
                                 },
                             ],
+                            totalCartPrice: (old.data.cart.totalCartPrice || 0) + ((payload.productData?.price ?? 0) * (payload.quantity ?? 1)),
                         },
                     },
                 }
