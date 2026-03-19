@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { label } from "motion/react-client";
 
 const NAV_LINKS = [
     { label: "Collections", href: "/collections" },
@@ -177,6 +178,7 @@ const Navbar = () => {
                                                 { label: "Dashboard", href: "/dashboard", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
                                                 { label: "My Orders", href: "/orders", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" },
                                                 { label: "Wishlist", href: "/wishlist", icon: "M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" },
+                                                ...(user?.role === "admin" ? [{label: "Admin Panel", href: "/admin", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"}] : [])
                                             ].map(({ label, href, icon }) => (
                                                 <Link
                                                     key={label}
@@ -330,6 +332,7 @@ const Navbar = () => {
                                                 { label: "Dashboard", href: "/dashboard" },
                                                 { label: "My Orders", href: "/orders" },
                                                 { label: "Wishlist", href: "/wishlist" },
+                                                ...(user?.role === "admin" ? [{ label: "Admin Panel", href: "/admin" }] : [])
                                             ].map((l, i) => (
                                                 <motion.li
                                                     key={l.label}

@@ -12,7 +12,8 @@ interface User {
     tier: string,
     isVerified: boolean,
     lastLogin: Date,
-    profileImage?: string
+    profileImage?: string,
+    role?: string
 }
 
 interface AuthContextType {

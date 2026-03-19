@@ -18,6 +18,7 @@ export const getAllProducts = async (query?: string) => {
         return data;
     } catch (error) {
         console.error("Error while getting all the products", error)
+        throw error;
     }
 }
 
@@ -32,6 +33,7 @@ export const getFeaturedProducts = async (): Promise<FeaturedProductsResponse> =
         return res.json()
     } catch (error) {
         console.error("Error while getting the Featured products" + error)
+        throw error;
     }
 }
 
@@ -46,6 +48,7 @@ export const getTrendingProducts = async (): Promise<TrendingProductsResponse> =
         return res.json()
     } catch (error) {
         console.error("Error while getting the trending products" + error)
+        throw error;
     }
 }
 
@@ -58,7 +61,8 @@ export const getProductDetails = async (slug: string) => {
         const product = await res.json();
         return product;
     } catch (error) {
-        
+        console.error("Error while getting product details:", error);
+        throw error;
     }
 }
 
@@ -72,5 +76,6 @@ export const getRelatedProducts = async (productId: string) => {
         return data;
     } catch (error) {
         console.error("Error while getting related products:", error);
+        throw error;
     }
 }

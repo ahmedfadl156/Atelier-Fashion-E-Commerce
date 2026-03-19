@@ -8,6 +8,8 @@ import { useRouter } from "next/navigation";
 import { CreditCard, Truck, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 
+import governorates from "@/data/egypt-governorates.json";
+
 const ShippingDetailsForm = () => {
     const router = useRouter();
     const [paymentMethod, setPaymentMethod] = useState<"cash" | "credit">("cash");
@@ -116,11 +118,17 @@ const ShippingDetailsForm = () => {
 
                     <div className="flex flex-col gap-2">
                         <label className="text-[11px] uppercase tracking-widest text-white/60">City</label>
-                        <input
+                        <select
                             {...form.register("city")}
-                            className="bg-transparent border-b border-white/20 pb-2 text-sm focus:outline-none focus:border-[#D4AF37] transition-colors"
-                            placeholder="Your City..."
-                        />
+                            className="bg-transparent border-b border-white/20 pb-2 text-sm focus:outline-none focus:border-[#D4AF37] transition-colors cursor-pointer"
+                        >
+                            <option value="" disabled className="bg-[#1A1A1A]">Select Your City...</option>
+                            {governorates.map((gov) => (
+                                <option key={gov} value={gov} className="bg-[#1A1A1A]">
+                                    {gov}
+                                </option>
+                            ))}
+                        </select>
                         {form.formState.errors.city && (
                             <span className="text-red-500 text-[10px]">{form.formState.errors.city.message}</span>
                         )}

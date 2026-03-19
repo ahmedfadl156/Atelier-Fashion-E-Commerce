@@ -14,8 +14,9 @@ const textVariants: Variants = {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeInOut" } }
 }
 
-const CategorySlugPage = ({params}: {params: Promise<{categorySlug: string}>}) => {
-    const {categorySlug} = use(params);
+import { Suspense } from "react"
+
+const CategoryContent = ({categorySlug}: {categorySlug: string}) => {
     const {data: categoryData, isLoading: isCategoryLoading, error: categoryError} = useGetCategory(categorySlug);
     const category = categoryData?.data?.category;
 
@@ -199,6 +200,16 @@ const CategorySlugPage = ({params}: {params: Promise<{categorySlug: string}>}) =
             </div>
         </section>
     );
+}
+
+const CategorySlugPage = ({params}: {params: Promise<{categorySlug: string}>}) => {
+    const {categorySlug} = use(params);
+
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-white"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>}>
+            <CategoryContent categorySlug={categorySlug} />
+        </Suspense>
+    )
 }
 
 export default CategorySlugPage;

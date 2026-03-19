@@ -7,7 +7,9 @@ import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import SearchComponent from "@/components/collections/SearchComponent";
 import { useGetAllCategories } from "@/hooks/categorys/useGetAllCategories";
 
-const page = () => {
+import { Suspense } from "react";
+
+const CollectionsContent = () => {
     const searchParams = useSearchParams();
     const router = useRouter();
     const pathname = usePathname();
@@ -171,7 +173,7 @@ const page = () => {
                             visible: {
                                 opacity: 1,
                                 transition: { staggerChildren: 0.1 }
-                            }
+                             }
                         }}
                         className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-10"
                     >
@@ -201,4 +203,12 @@ const page = () => {
     )
 }
 
-export default page
+const page = () => {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-white"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>}>
+            <CollectionsContent />
+        </Suspense>
+    )
+}
+
+export default page;
