@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Trash2, ShoppingBag, Loader2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { SERVER_ORIGIN } from "@/utils/helpers";
 
 const WishlistPage = () => {
     const { data, isLoading, isError } = useWishlist();
@@ -68,7 +69,7 @@ const WishlistPage = () => {
                                 {/* Image Container */}
                                 <div className="relative w-full aspect-3/4 bg-[#F9F8F6] overflow-hidden rounded-xl">
                                     <Image
-                                        src={`${process.env.NEXT_PUBLIC_SERVER_ORIGIN || "http://localhost:5500"}/images/Products/${item.coverImage}`}
+                                        src={`${SERVER_ORIGIN}/images/Products/${item.coverImage}`}
                                         alt={item.title}
                                         fill
                                         className="object-cover object-top transition-transform duration-700 group-hover:scale-105"

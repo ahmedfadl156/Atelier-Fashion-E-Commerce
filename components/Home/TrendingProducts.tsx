@@ -6,8 +6,7 @@ import { useTrendingProducts } from "@/hooks/products/useTrendingProdutcs"
 import TrendingProductCard from "./TrendingProductCard"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
-
-const SERVER_ORIGIN = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api.*$/, "") ?? ""
+import { SERVER_ORIGIN } from "@/utils/helpers"
 
 const TrendingProducts = () => {
     const { data, isLoading, isError } = useTrendingProducts()

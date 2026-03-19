@@ -6,12 +6,11 @@ import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 import { useFeaturedProducts } from "@/hooks/products/useFeaturedProducts"
 import Image from "next/image"
+import { SERVER_ORIGIN } from "@/utils/helpers"
 
 const ITEM_WIDTH = 340
 const GAP = 20
 const CARD_HEIGHT = 460
-
-const SERVER_ORIGIN = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api.*$/, "") ?? ""
 
 const FeaturedProducts = () => {
     const containerRef = useRef(null)

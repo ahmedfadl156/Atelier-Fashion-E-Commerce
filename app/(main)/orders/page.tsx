@@ -4,11 +4,11 @@ import { useGetOrders } from "@/hooks/orders/useGetOrders";
 import Image from "next/image";
 import Link from "next/link";
 import { Loader2, PackageOpen, ArrowRight } from "lucide-react";
+import { SERVER_ORIGIN } from "@/utils/helpers";
 
 const OrdersPage = () => {
     const { data: response, isLoading, isError } = useGetOrders();
     const orders = response?.data || [];
-    const serverOrigin = process.env.NEXT_PUBLIC_API_URL?.replace(/\/api.*$/, "") || "http://localhost:5500";
 
     return (
         <main className="mx-auto max-w-[1600px] py-16 lg:py-20 px-4 md:px-6 lg:px-8">
@@ -75,7 +75,7 @@ const OrdersPage = () => {
                                                         <div className="relative w-16 h-20 bg-[#1A1A1A]/5 shrink-0 overflow-hidden">
                                                             {item.imageCover ? (
                                                                 <Image
-                                                                    src={`${serverOrigin}/${item.imageCover}`}
+                                                                    src={`${SERVER_ORIGIN}/${item.imageCover}`}
                                                                     alt={item.title}
                                                                     fill
                                                                     className="object-cover object-top"

@@ -19,59 +19,7 @@ import {
 } from "lucide-react";
 import { useGetOrderDetails } from "@/hooks/orders/useGetOrderDetails";
 import { OrderDetailsItem } from "@/types/order";
-
-
-const SERVER_ORIGIN =
-    process.env.NEXT_PUBLIC_API_URL?.replace(/\/api.*$/, "") ||
-    "http://localhost:5500";
-
-const formatPrice = (amount: number) =>
-    new Intl.NumberFormat("en-EG", {
-        style: "currency",
-        currency: "EGP",
-        minimumFractionDigits: 0,
-    }).format(amount);
-
-const formatDate = (iso: string) =>
-    new Date(iso).toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-        hour: "2-digit",
-        minute: "2-digit",
-    });
-
-
-type StatusKey = "pending" | "processing" | "shipped" | "delivered" | "cancelled";
-
-const STATUS_STEPS: { key: StatusKey; label: string }[] = [
-    { key: "pending", label: "Pending" },
-    { key: "processing", label: "Processing" },
-    { key: "shipped", label: "Shipped" },
-    { key: "delivered", label: "Delivered" },
-];
-
-const STATUS_COLOR: Record<StatusKey | string, string> = {
-    pending: "text-yellow-600 bg-yellow-50 border-yellow-200",
-    processing: "text-[#D4AF37] bg-[#D4AF37]/10 border-[#D4AF37]/30",
-    shipped: "text-blue-600 bg-blue-50 border-blue-200",
-    delivered: "text-emerald-600 bg-emerald-50 border-emerald-200",
-    cancelled: "text-red-500 bg-red-50 border-red-200",
-};
-
-const STATUS_DOT: Record<StatusKey | string, string> = {
-    pending: "bg-yellow-500",
-    processing: "bg-[#D4AF37] animate-pulse",
-    shipped: "bg-blue-500",
-    delivered: "bg-emerald-500",
-    cancelled: "bg-red-500",
-};
-
-const getCurrentStepIndex = (status: string) => {
-    const idx = STATUS_STEPS.findIndex((s) => s.key === status.toLowerCase());
-    return idx === -1 ? 0 : idx;
-};
-
+import { SERVER_ORIGIN, formatPrice, formatDate, StatusKey, STATUS_STEPS, STATUS_COLOR, STATUS_DOT, getCurrentStepIndex } from "@/utils/helpers";
 
 function SectionCard({
     icon,
@@ -375,12 +323,15 @@ const OrderDetailsPage = () => {
                         </div>
 
                         {/* Points earned */}
-                        <div className="mt-4 flex items-center gap-2.5 bg-[#D4AF37]/8 border border-[#D4AF37]/25 px-4 py-3">
-                            <Star className="w-3.5 h-3.5 text-[#D4AF37] fill-[#D4AF37] shrink-0" />
-                            <p className="text-[11px] text-[#1A1A1A]/70">
-                                <span className="font-bold text-[#D4AF37]">{order.pointsEarned} pts</span> earned
-                                from this order
-                            </p>
+                        <div className="mt-4 flex flex-col gap-2.5 bg-[#D4AF37]/8 border border-[#D4AF37]/25 px-4 py-3">
+                            <div className="flex items-center gap-2.5">
+                                <Star className="w-3.5 h-3.5 text-[#D4AF37] fill-[#D4AF37] shrink-0" />
+                                <p className="text-[11px] text-[#1A1A1A]/70">
+                                    <span className="font-bold text-[#D4AF37]">{order.pointsEarned} pts</span> earned
+                                    from this order
+                                </p>
+                            </div>
+                            <p className="text-[10px] text-[#1A1A1A]">The points will be added to your account after order delievered</p>
                         </div>
                     </SectionCard>
 

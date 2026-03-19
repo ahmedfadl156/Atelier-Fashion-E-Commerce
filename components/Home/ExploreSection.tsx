@@ -38,7 +38,7 @@ const ExploreSection = () => {
                 <p className="text-[#4B5563] mb-8 text-sm lg:text-base leading-relaxed max-w-lg">Discover the new season essentials featuring intricate craftsmanship
                     and timeless silhouettes designed for the modern muse.
                 </p>
-                <Link className="uppercase flex items-center gap-2 text-[#333333] text-base font-bold underline" href="/collections">
+                <Link className="uppercase flex items-center gap-2 text-[#333333] text-base font-bold underline" href="/collections/category/men">
                     Explore Collection
                     <ArrowRight className="size-4"/>
                 </Link>
@@ -85,7 +85,7 @@ const ExploreSection = () => {
                 <p className="text-[#4B5563] mb-8 text-sm lg:text-base leading-relaxed max-w-lg">
                     Explore the effortless drape and fluid lines of our new gowns and separates.
                 </p>
-                <Link className="uppercase flex items-center gap-2 text-[#333333] text-base font-bold underline" href="/collections">
+                <Link className="uppercase flex items-center gap-2 text-[#333333] text-base font-bold underline" href="/collections/category/women">
                     Explore Collection
                     <ArrowRight className="size-4"/>
                 </Link>
