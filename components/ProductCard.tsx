@@ -18,8 +18,7 @@ const ProductCard = ({ product, serverOrigin }: ProductCardProps) => {
             {/* Image container */}
             <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden bg-[#F5F2EE]">
                 <Image
-                    src={"/images/Fluid Dress.png"}
-                    // src={`${serverOrigin}/images/Products/${product.coverImage}` || "/images/Fluid Dress.png"}
+                    src={`${serverOrigin}/images/Products/${product.coverImage}` || "/images/Fluid Dress.png"}
                     alt={product.title}
                     fill
                     className="object-cover object-top transition-transform duration-700 group-hover:scale-105"

@@ -9,6 +9,10 @@ const nextConfig: NextConfig = {
         protocol: "http",
         hostname: "localhost",
         port: "5500",
+      },
+      {
+        protocol: "https",
+        hostname: "atelierbackend-production.up.railway.app",
       }
     ]
   }
